@@ -1,6 +1,9 @@
 # omacase AeroSpace config — Hyprland-style tiling keybinds on macOS.
 # Docs: https://nikitabobko.github.io/AeroSpace/guide
 
+# NOTE: all top-level keys MUST come before the first [table] header (e.g.
+# [gaps]) — in TOML everything after a header belongs to that table.
+
 start-at-login = true
 
 # Tiling defaults (Hyprland-ish: gaps + accordion fallback).
@@ -8,16 +11,7 @@ default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
 accordion-padding = 30
 
-# Gaps (the Hyprland look).
-[gaps]
-inner.horizontal = 8
-inner.vertical   = 8
-outer.left       = 8
-outer.right      = 8
-outer.top        = 8       # raise to ~40 if SketchyBar overlaps windows
-outer.bottom     = 8
-
-# Normalization off so the tree behaves predictably like i3.
+# Normalization on so the tree behaves predictably like i3.
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
@@ -29,6 +23,15 @@ after-startup-command = [
 # Tell SketchyBar which workspace is focused.
 exec-on-workspace-change = ['/bin/bash', '-c',
   'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+
+# Gaps (the Hyprland look). Keep this table AFTER all top-level keys above.
+[gaps]
+inner.horizontal = 8
+inner.vertical   = 8
+outer.left       = 8
+outer.right      = 8
+outer.top        = 8       # raise to ~40 if SketchyBar overlaps windows
+outer.bottom     = 8
 
 [mode.main.binding]
 # --- focus (Alt + hjkl) ---
