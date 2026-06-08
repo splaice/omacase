@@ -7,9 +7,15 @@ omacase_doctor() {
   local issues=0
 
   step "Tooling"
-  for c in brew chezmoi sketchybar borders; do
+  for c in brew gum sketchybar borders; do
     if have "$c"; then success "$c installed"; else error "$c missing — run \`omacase install\`"; ((issues++)); fi
   done
+
+  step "Backups"
+  source "$OMACASE_ROOT/lib/backup.sh"
+  local last; last="$(cat "$OMACASE_STATE/last-backup" 2>/dev/null)"
+  if [ -n "$last" ]; then success "latest snapshot: $last  (omacase restore to roll back)"
+  else info "no backups yet (created automatically on first install)"; fi
 
   step "Window manager"
   local wm; wm="$(cat "$OMACASE_STATE/wm" 2>/dev/null || echo aerospace)"

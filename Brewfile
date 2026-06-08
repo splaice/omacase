@@ -40,9 +40,9 @@ brew "direnv"
 brew "lazygit"
 brew "gh"
 
-# --- Dotfiles & tooling -----------------------------------------------------
-brew "chezmoi"           # dotfiles manager
+# --- Tooling ----------------------------------------------------------------
 brew "gum"               # TUI for `omacase menu`
+# (Omacase manages its own dotfiles via symlinks — no chezmoi dependency.)
 
 # --- Fonts ------------------------------------------------------------------
 cask "font-jetbrains-mono-nerd-font"

@@ -26,7 +26,7 @@ omacase doctor      # grant Accessibility to AeroSpace, SketchyBar, Karabiner, R
 | Terminal | **Ghostty** + zsh/Starship + modern CLI set |
 | Editor | **Neovim/LazyVim** + Zed |
 | Packages | **Homebrew + Brewfile** |
-| Dotfiles | **chezmoi** (`home/`) |
+| Dotfiles | **Omacase-owned symlinks** (`home/`) — won't collide with your own chezmoi/stow |
 | Theme | **Catppuccin Mocha** (default) / Tokyo Night |
 
 ## Commands
@@ -37,8 +37,15 @@ omacase update             # pull + brew bundle + re-apply everything
 omacase theme [name]       # apply a theme everywhere at once
 omacase wm aerospace|yabai # switch window-manager profile
 omacase doctor             # check perms, SIP, missing grants
+omacase backup [label]     # snapshot current dotfiles & macOS defaults
+omacase restore [id]       # roll back to a snapshot (--list to see them)
 omacase menu               # gum TUI (bind to a Raycast hotkey)
 ```
+
+> **Reversible by design.** `install` auto-snapshots any pre-existing dotfiles
+> and the macOS defaults domains it touches *before* changing anything. Don't
+> like the result? `omacase restore` puts your old setup back. Omacase manages
+> its own dotfiles as symlinks, so it never fights an existing chezmoi/stow.
 
 ## Keybinds
 

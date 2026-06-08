@@ -15,13 +15,24 @@ config by hand — the CLI keeps state and re-applies themes/WM consistently.
 - `omacase theme [name]` — apply a theme everywhere at once (`catppuccin-mocha`, `tokyo-night`)
 - `omacase wm <aerospace|yabai>` — switch window-manager profile
 - `omacase doctor` — check tooling, WM, SIP state, and missing permission grants
+- `omacase backup [label]` / `omacase restore [id]` — snapshot & roll back dotfiles + defaults
 - `omacase menu` — gum TUI (bind to a Raycast hotkey)
+
+## Reversibility (important)
+- Omacase owns its dotfiles via **symlinks** from `home/` into `$HOME` — it does NOT
+  use chezmoi, so it never collides with a user's existing chezmoi/stow setup.
+- `install` calls `_auto_backup` first: it snapshots any pre-existing dotfile targets
+  and the touched macOS `defaults` domains into `$OMACASE_STATE/backups/<id>/`.
+- If a user dislikes the result, `omacase restore` rolls back (latest by default;
+  `omacase restore --list` to choose). Don't hand-undo changes — use restore.
 
 ## Architecture (where to change things)
 - `Brewfile` — the package/app set; edit then `omacase update`.
 - `macos/defaults.sh` — `defaults write` layer (key repeat, Finder, Dock, screenshots…).
-- `home/` — chezmoi source for dotfiles. `home/dot_config/aerospace/aerospace.toml`
-  holds the Hyprland-style keybinds (Alt+hjkl focus, Alt+Shift+hjkl move, Alt+[1-9] workspaces).
+  Keep `OMACASE_DEFAULTS_DOMAINS` in `lib/backup.sh` in sync with the domains it writes.
+- `home/` — dotfile source (symlinked into `$HOME`; `dot_` prefix → `.`).
+  `home/dot_config/aerospace/aerospace.toml` holds the Hyprland-style keybinds
+  (Alt+hjkl focus, Alt+Shift+hjkl move, Alt+[1-9] workspaces).
 - `themes/<name>/` — per-app color fragments; `omacase theme` symlinks them into `~/.config`.
 - `lib/*.sh` — one file per subcommand.
 
@@ -42,4 +53,5 @@ config by hand — the CLI keeps state and re-applies themes/WM consistently.
 - "Change the theme" → `omacase theme tokyo-night` (or list with `omacase theme`).
 - "Tiling stopped working" → `omacase doctor`; check AeroSpace is running and granted Accessibility.
 - "Add an app" → add a line to `Brewfile`, then `omacase update`.
-- "Tweak a keybind" → edit `home/dot_config/aerospace/aerospace.toml`, then `chezmoi apply` (or `omacase update`).
+- "Tweak a keybind" → edit `home/dot_config/aerospace/aerospace.toml` (it's symlinked, so changes are live; reload AeroSpace with Alt+Shift+c).
+- "Undo / I don't like this" → `omacase restore` (or `omacase restore --list` then `omacase restore <id>`).

@@ -25,6 +25,8 @@ usage: omacase <command> [args]
   theme [name]       Apply a theme everywhere (no name = list/pick)
   wm <aerospace|yabai>   Switch window-manager profile
   doctor             Check permissions, SIP state, and missing grants
+  backup [label]     Snapshot current dotfiles & macOS defaults
+  restore [id]       Roll back to a snapshot (--list to see them)
   config             Open the config directory
   menu               Interactive TUI (bind to a Raycast hotkey)
   version            Print version
@@ -41,6 +43,8 @@ case "$cmd" in
   theme)          source "$OMACASE_ROOT/lib/theme.sh";    omacase_theme   "$@" ;;
   wm)             source "$OMACASE_ROOT/lib/wm.sh";       omacase_wm      "$@" ;;
   doctor)         source "$OMACASE_ROOT/lib/doctor.sh";   omacase_doctor  "$@" ;;
+  backup)         source "$OMACASE_ROOT/lib/backup.sh";   omacase_backup  "$@" ;;
+  restore)        source "$OMACASE_ROOT/lib/backup.sh";   omacase_restore "$@" ;;
   menu)           source "$OMACASE_ROOT/lib/menu.sh";     omacase_menu    "$@" ;;
   config)         exec "${EDITOR:-open}" "$OMACASE_ROOT/home" ;;
   version|-v|--version) cat "$OMACASE_ROOT/VERSION" ;;
