@@ -13,4 +13,6 @@ mouse-hide-while-typing = true
 copy-on-select = clipboard
 
 # Theme is managed by omacase (symlink → ~/.config/ghostty/theme).
-config-file = theme
+# Must be absolute: `config` is symlinked into the repo, so a relative
+# path would resolve against the repo dir, not ~/.config/ghostty.
+config-file = ~/.config/ghostty/theme
