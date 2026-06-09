@@ -66,3 +66,64 @@ omacase_appearance() {
     warn "Couldn't set appearance — grant Automation → System Events to the caller (\`omacase doctor\`)."
   fi
 }
+
+# Spotlight launchers. macOS Shortcuts can't be authored from a script, but a
+# tiny osacompile'd .app can: it's indexed by Spotlight and runs a shell command
+# when launched. We generate one per web app (plus an appearance toggle) into
+# ~/Applications, so each is launchable by name from Spotlight (⌘Space).
+# Display name | omacase subcommand+args. Names are picked to be distinct in
+# Spotlight (e.g. "Google Photos", not "Photos", which collides with Photos.app).
+_LAUNCHERS=(
+  "ChatGPT|webapp chatgpt"
+  "Grok|webapp grok"
+  "HEY Email|webapp email"
+  "HEY Calendar|webapp calendar"
+  "YouTube|webapp youtube"
+  "WhatsApp|webapp whatsapp"
+  "Google Messages|webapp messages"
+  "Google Photos|webapp photos"
+  "X|webapp x"
+  "X Post|webapp x-post"
+  "Toggle Appearance|appearance toggle"
+)
+
+omacase_launchers() {
+  local action="${1:-build}" dir="$HOME/Applications" bin="$OMACASE_ROOT/bin/omacase"
+  case "$action" in
+    build|"") ;;
+    remove)   _launchers_remove "$dir"; return ;;
+    *) abort "usage: omacase launchers [build|remove]" ;;
+  esac
+  have osacompile || abort "osacompile not found (ships with macOS)."
+
+  mkdir -p "$dir"
+  local entry name args app tmp
+  for entry in "${_LAUNCHERS[@]}"; do
+    name="${entry%%|*}"; args="${entry#*|}"
+    app="$dir/$name.app"
+    if is_dryrun; then printf '\033[2m[dry-run]\033[0m create %s → omacase %s\n' "$app" "$args"; continue; fi
+    rm -rf "$app"
+    # Launchers run with a minimal PATH, so set Homebrew + call omacase by path.
+    tmp="$(mktemp).applescript"
+    printf 'do shell script "export PATH=/opt/homebrew/bin:$PATH; %s %s"\n' "$bin" "$args" > "$tmp"
+    if osacompile -o "$app" "$tmp" >/dev/null 2>&1; then
+      : > "$app/Contents/Resources/.omacase-launcher"   # marker for clean removal
+      success "$name"
+    else
+      warn "failed to build $name"
+    fi
+    rm -f "$tmp"
+  done
+  info "Created in $dir — open from Spotlight (⌘Space, type the name)."
+  info "First launch of an action may prompt for permission; \`omacase launchers remove\` deletes them."
+}
+
+# Remove only the .app bundles we created (identified by the marker file).
+_launchers_remove() {
+  local dir="$1" app n=0
+  for app in "$dir"/*.app; do
+    [ -e "$app/Contents/Resources/.omacase-launcher" ] || continue
+    run rm -rf "$app"; n=$((n + 1))
+  done
+  success "Removed $n omacase launcher(s) from $dir."
+}

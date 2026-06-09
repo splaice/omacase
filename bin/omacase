@@ -25,6 +25,7 @@ usage: omacase <command> [args]
   theme [name]       Apply a theme everywhere (no name = list/pick)
   webapp [name]      Open an Omarchy web app (no name = list); for Spotlight Shortcuts
   appearance [...]   Toggle/set macOS Light/Dark (toggle|dark|light)
+  launchers [...]    Generate Spotlight .app launchers for web apps (build|remove)
   wm <aerospace|yabai>   Switch window-manager profile
   doctor             Check permissions, SIP state, and missing grants
   backup [label]     Snapshot current dotfiles & macOS defaults
@@ -45,6 +46,7 @@ case "$cmd" in
   theme)          source "$OMACASE_ROOT/lib/theme.sh";    omacase_theme   "$@" ;;
   webapp)         source "$OMACASE_ROOT/lib/actions.sh";  omacase_webapp     "$@" ;;
   appearance)     source "$OMACASE_ROOT/lib/actions.sh";  omacase_appearance "$@" ;;
+  launchers)      source "$OMACASE_ROOT/lib/actions.sh";  omacase_launchers  "$@" ;;
   wm)             source "$OMACASE_ROOT/lib/wm.sh";       omacase_wm      "$@" ;;
   doctor)         source "$OMACASE_ROOT/lib/doctor.sh";   omacase_doctor  "$@" ;;
   backup)         source "$OMACASE_ROOT/lib/backup.sh";   omacase_backup  "$@" ;;

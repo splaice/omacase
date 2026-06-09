@@ -39,6 +39,7 @@ omacase update             # pull + brew bundle + re-apply everything
 omacase theme [name]       # retheme everything: apps + macOS Light/Dark + wallpaper
 omacase webapp [name]      # open an Omarchy web app (for a Spotlight Shortcut)
 omacase appearance [...]   # toggle/set macOS Light/Dark (toggle|dark|light)
+omacase launchers [...]    # build Spotlight .app launchers for web apps (build|remove)
 omacase wm aerospace|yabai # switch window-manager profile
 omacase doctor             # check perms, SIP, missing grants
 omacase backup [label]     # snapshot current dotfiles & macOS defaults

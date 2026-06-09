@@ -15,6 +15,7 @@ config by hand — the CLI keeps state and re-applies themes/WM consistently.
 - `omacase theme [name]` — apply a theme everywhere at once; 19 Omarchy themes ship in `themes/` (run `omacase theme` to pick from the list). Light/dark is derived from the theme background and also flips macOS appearance and the Claude Code CLI theme. The desktop wallpaper is set to the theme's Omarchy background (fetched on first use into `~/.local/share/omacase/backgrounds/`, then cached).
 - `omacase webapp [name]` — open an Omarchy web app (no name = list); meant to be wrapped in a Spotlight Shortcut
 - `omacase appearance [toggle|dark|light]` — flip/set macOS system Light/Dark
+- `omacase launchers [build|remove]` — generate/remove Spotlight `.app` launchers (in `~/Applications`) for each web app + appearance toggle, via `osacompile`
 - `omacase wm <aerospace|yabai>` — switch window-manager profile
 - `omacase doctor` — check tooling, WM, SIP state, and missing permission grants
 - `omacase backup [label]` / `omacase restore [id]` — snapshot & roll back dotfiles + defaults

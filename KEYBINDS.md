@@ -26,12 +26,24 @@ On Tahoe, Spotlight is launcher + Actions + clipboard history + Quick Keys.
 
 ---
 
-## Spotlight Shortcuts — the Omarchy command layer
-macOS Shortcuts can't be authored from a script, so build these once: **Shortcuts
-app → New Shortcut → "Run Shell Script"**, paste the command, name it. The name is
-how you invoke it from Spotlight (`⌘Space`, type the name), and Spotlight learns a
-**Quick Key** for the ones you use often. (The Super key drives AeroSpace now, so
-invoke Shortcuts via Spotlight rather than a Super chord.)
+## Spotlight launchers — the Omarchy command layer
+
+**The easy way — `omacase launchers`.** macOS *Shortcuts* can't be authored from a
+script, but `osacompile`'d `.app` launchers can. Run once:
+
+```sh
+omacase launchers          # build ~/Applications/*.app for every web app + Toggle Appearance
+omacase launchers remove   # delete them again (only the ones omacase made)
+```
+
+Then open any from Spotlight (`⌘Space`, type the name): ChatGPT, Grok, HEY Email,
+HEY Calendar, YouTube, WhatsApp, Google Messages, Google Photos, X, X Post, Toggle
+Appearance. First launch of *Toggle Appearance* prompts once for Automation. (The
+Super key drives AeroSpace now, so these are invoked by typing in Spotlight, not a
+Super chord.)
+
+**Or by hand as a Shortcut** (gets auto-learned Quick Keys, unlike a `.app`):
+Shortcuts app → New Shortcut → "Run Shell Script", paste a command, name it:
 
 > Shortcuts run with a minimal `PATH`, so use the **full path** to omacase and add
 > Homebrew to `PATH`. Each script body is:
