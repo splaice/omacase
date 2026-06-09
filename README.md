@@ -1,5 +1,7 @@
 # Omacase
 
+**Yes, this is what you think it is. Omarchy for MacOS, lol.**
+
 An opinionated, tiling macOS — installed, configured, themed, and managed from a
 single command. Omarchy's ethos (keyboard-first, one consistent theme everywhere,
 one-command reproducible) translated to where macOS actually wants to go.
