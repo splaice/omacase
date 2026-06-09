@@ -1,0 +1,3 @@
+# Osaka Jade — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff509475
+export INACTIVE_BORDER=0xff53685b

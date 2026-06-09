@@ -1,0 +1,36 @@
+# Retro 82 — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'retro_82'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.retro_82]
+blue = '#faa968'
+green = '#028391'
+red = '#f85525'
+mauve = '#3f8f8a'
+yellow = '#e97b3c'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

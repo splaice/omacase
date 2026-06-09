@@ -1,0 +1,36 @@
+# White — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'white'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.white]
+blue = '#1a1a1a'
+green = '#3a3a3a'
+red = '#2a2a2a'
+mauve = '#2e2e2e'
+yellow = '#4a4a4a'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

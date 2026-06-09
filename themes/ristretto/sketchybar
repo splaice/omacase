@@ -1,0 +1,5 @@
+# Ristretto — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff2c2525
+export LABEL_COLOR=0xffe6d9db
+export ACCENT=0xfff38d70
+export MUTED=0xff948a8b   # dimmed inactive workspace numbers

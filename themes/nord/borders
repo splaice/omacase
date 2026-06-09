@@ -1,0 +1,3 @@
+# Nord — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff81a1c1
+export INACTIVE_BORDER=0xff4c566a

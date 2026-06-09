@@ -1,0 +1,36 @@
+# Ristretto — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'ristretto'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.ristretto]
+blue = '#f38d70'
+green = '#adda78'
+red = '#fd6883'
+mauve = '#a8a9eb'
+yellow = '#f9cc6c'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

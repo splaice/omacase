@@ -1,0 +1,5 @@
+# Lumon — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff16242d
+export LABEL_COLOR=0xffd6e2ee
+export ACCENT=0xff8bc9eb
+export MUTED=0xff304860   # dimmed inactive workspace numbers

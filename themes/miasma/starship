@@ -1,0 +1,36 @@
+# Miasma — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'miasma'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.miasma]
+blue = '#78824b'
+green = '#5f875f'
+red = '#685742'
+mauve = '#bb7744'
+yellow = '#b36d43'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

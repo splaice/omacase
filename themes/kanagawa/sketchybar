@@ -1,0 +1,5 @@
+# Kanagawa — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff1f1f28
+export LABEL_COLOR=0xffdcd7ba
+export ACCENT=0xff7e9cd8
+export MUTED=0xff727169   # dimmed inactive workspace numbers

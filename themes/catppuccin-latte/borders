@@ -1,0 +1,3 @@
+# Catppuccin Latte — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff1e66f5
+export INACTIVE_BORDER=0xffacb0be

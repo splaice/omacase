@@ -1,0 +1,36 @@
+# Ethereal — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'ethereal'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.ethereal]
+blue = '#7d82d9'
+green = '#92a593'
+red = '#ed5b5a'
+mauve = '#c89dc1'
+yellow = '#e9bb4f'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

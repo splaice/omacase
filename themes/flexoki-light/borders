@@ -1,0 +1,3 @@
+# Flexoki Light — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff205ea6
+export INACTIVE_BORDER=0xff100f0f

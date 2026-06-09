@@ -1,0 +1,5 @@
+# Retro 82 — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff05182e
+export LABEL_COLOR=0xfff6dcac
+export ACCENT=0xfffaa968
+export MUTED=0xff134e5a   # dimmed inactive workspace numbers

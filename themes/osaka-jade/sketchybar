@@ -1,0 +1,5 @@
+# Osaka Jade — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff111c18
+export LABEL_COLOR=0xffc1c497
+export ACCENT=0xff509475
+export MUTED=0xff53685b   # dimmed inactive workspace numbers

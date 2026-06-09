@@ -1,0 +1,3 @@
+# Miasma — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff78824b
+export INACTIVE_BORDER=0xff666666

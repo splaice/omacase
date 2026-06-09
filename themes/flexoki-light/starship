@@ -1,0 +1,36 @@
+# Flexoki Light — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'flexoki_light'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.flexoki_light]
+blue = '#205ea6'
+green = '#879a39'
+red = '#d14d41'
+mauve = '#ce5d97'
+yellow = '#d0a215'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

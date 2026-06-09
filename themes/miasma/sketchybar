@@ -1,0 +1,5 @@
+# Miasma — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff222222
+export LABEL_COLOR=0xffc2c2b0
+export ACCENT=0xff78824b
+export MUTED=0xff666666   # dimmed inactive workspace numbers

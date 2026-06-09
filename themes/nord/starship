@@ -1,0 +1,36 @@
+# Nord — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'nord'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.nord]
+blue = '#81a1c1'
+green = '#a3be8c'
+red = '#bf616a'
+mauve = '#b48ead'
+yellow = '#ebcb8b'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

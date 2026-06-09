@@ -12,7 +12,7 @@ config by hand — the CLI keeps state and re-applies themes/WM consistently.
 ## Command surface
 - `omacase install` — full idempotent setup (re-runnable; same engine as update)
 - `omacase update` — git pull + `brew bundle` + re-apply dotfiles, defaults, theme, WM
-- `omacase theme [name]` — apply a theme everywhere at once (`catppuccin-mocha`, `tokyo-night`)
+- `omacase theme [name]` — apply a theme everywhere at once; 19 Omarchy themes ship in `themes/` (run `omacase theme` to pick from the list)
 - `omacase wm <aerospace|yabai>` — switch window-manager profile
 - `omacase doctor` — check tooling, WM, SIP state, and missing permission grants
 - `omacase backup [label]` / `omacase restore [id]` — snapshot & roll back dotfiles + defaults

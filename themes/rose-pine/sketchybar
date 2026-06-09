@@ -1,0 +1,5 @@
+# Rose Pine — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xfffaf4ed
+export LABEL_COLOR=0xff575279
+export ACCENT=0xff56949f
+export MUTED=0xff9893a5   # dimmed inactive workspace numbers

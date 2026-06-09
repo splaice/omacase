@@ -1,0 +1,3 @@
+# Matte Black — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xffe68e0d
+export INACTIVE_BORDER=0xff8a8a8d

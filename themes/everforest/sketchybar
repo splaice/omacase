@@ -1,0 +1,5 @@
+# Everforest — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff2d353b
+export LABEL_COLOR=0xffd3c6aa
+export ACCENT=0xff7fbbb3
+export MUTED=0xff475258   # dimmed inactive workspace numbers

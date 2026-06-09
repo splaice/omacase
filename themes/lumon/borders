@@ -1,0 +1,3 @@
+# Lumon — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff8bc9eb
+export INACTIVE_BORDER=0xff304860

@@ -1,0 +1,5 @@
+# Nord — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff2e3440
+export LABEL_COLOR=0xffd8dee9
+export ACCENT=0xff81a1c1
+export MUTED=0xff4c566a   # dimmed inactive workspace numbers

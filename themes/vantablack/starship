@@ -1,0 +1,36 @@
+# Vantablack — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'vantablack'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.vantablack]
+blue = '#8d8d8d'
+green = '#b6b6b6'
+red = '#a4a4a4'
+mauve = '#9b9b9b'
+yellow = '#cecece'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

@@ -1,0 +1,36 @@
+# Matte Black — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'matte_black'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.matte_black]
+blue = '#e68e0d'
+green = '#ffc107'
+red = '#d35f5f'
+mauve = '#d35f5f'
+yellow = '#b91c1c'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

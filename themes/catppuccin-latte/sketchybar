@@ -1,0 +1,5 @@
+# Catppuccin Latte — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xffeff1f5
+export LABEL_COLOR=0xff4c4f69
+export ACCENT=0xff1e66f5
+export MUTED=0xffacb0be   # dimmed inactive workspace numbers

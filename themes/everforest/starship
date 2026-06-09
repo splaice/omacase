@@ -1,0 +1,36 @@
+# Everforest — Starship prompt (used as $STARSHIP_CONFIG via theme.toml).
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = 'everforest'
+format = '$directory$git_branch$git_status$nodejs$python$character'
+
+[palettes.everforest]
+blue = '#7fbbb3'
+green = '#a7c080'
+red = '#e67e80'
+mauve = '#d699b6'
+yellow = '#dbbc7f'
+
+[directory]
+style = 'bold blue'
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = ' '
+style = 'bold mauve'
+
+[git_status]
+style = 'bold red'
+
+[nodejs]
+symbol = ' '
+style = 'green'
+
+[python]
+symbol = ' '
+style = 'yellow'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'

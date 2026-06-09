@@ -1,0 +1,5 @@
+# White — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xffffffff
+export LABEL_COLOR=0xff000000
+export ACCENT=0xff6e6e6e
+export MUTED=0xffc0c0c0   # dimmed inactive workspace numbers

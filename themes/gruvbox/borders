@@ -1,0 +1,3 @@
+# Gruvbox — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff7daea3
+export INACTIVE_BORDER=0xff3c3836

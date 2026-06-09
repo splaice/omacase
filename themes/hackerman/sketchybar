@@ -1,0 +1,5 @@
+# Hackerman — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff0b0c16
+export LABEL_COLOR=0xffddf7ff
+export ACCENT=0xff82fb9c
+export MUTED=0xff6a6e95   # dimmed inactive workspace numbers

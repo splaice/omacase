@@ -1,0 +1,5 @@
+# Vantablack — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff000000
+export LABEL_COLOR=0xffffffff
+export ACCENT=0xff8d8d8d
+export MUTED=0xff5c5c5c   # dimmed inactive workspace numbers

@@ -1,0 +1,5 @@
+# Gruvbox — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff282828
+export LABEL_COLOR=0xffd4be98
+export ACCENT=0xff7daea3
+export MUTED=0xff3c3836   # dimmed inactive workspace numbers

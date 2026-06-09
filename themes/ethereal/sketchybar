@@ -1,0 +1,5 @@
+# Ethereal — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff060b1e
+export LABEL_COLOR=0xffffcead
+export ACCENT=0xff7d82d9
+export MUTED=0xff6d7db6   # dimmed inactive workspace numbers

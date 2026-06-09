@@ -1,0 +1,5 @@
+# Flexoki Light — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xfffffcf0
+export LABEL_COLOR=0xff100f0f
+export ACCENT=0xff205ea6
+export MUTED=0xff100f0f   # dimmed inactive workspace numbers

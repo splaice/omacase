@@ -1,0 +1,3 @@
+# Ristretto — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xfff38d70
+export INACTIVE_BORDER=0xff948a8b

@@ -1,0 +1,5 @@
+# Matte Black — SketchyBar palette (sourced as theme.sh).
+export BAR_COLOR=0xff121212
+export LABEL_COLOR=0xffbebebe
+export ACCENT=0xffe68e0d
+export MUTED=0xff8a8a8d   # dimmed inactive workspace numbers

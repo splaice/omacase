@@ -1,0 +1,3 @@
+# Rose Pine — JankyBorders palette (sourced as theme.conf).
+export ACTIVE_BORDER=0xff56949f
+export INACTIVE_BORDER=0xff9893a5

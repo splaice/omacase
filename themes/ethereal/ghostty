@@ -1,0 +1,22 @@
+# Ethereal — Ghostty colors (from Omarchy colors.toml).
+background = 060b1e
+foreground = ffcead
+cursor-color = ffcead
+selection-background = ffcead
+selection-foreground = 060b1e
+palette = 0=#3c486d
+palette = 1=#ed5b5a
+palette = 2=#92a593
+palette = 3=#e9bb4f
+palette = 4=#7d82d9
+palette = 5=#c89dc1
+palette = 6=#a3bfd1
+palette = 7=#f99957
+palette = 8=#6d7db6
+palette = 9=#faaaa9
+palette = 10=#c4cfc4
+palette = 11=#f7dc9c
+palette = 12=#c2c4f0
+palette = 13=#ead7e7
+palette = 14=#dfeaf0
+palette = 15=#ffcead
