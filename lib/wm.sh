@@ -120,3 +120,12 @@ omacase_grid() {
 _grid_notify() {
   osascript -e "display notification \"$1\" with title \"omacase grid\"" >/dev/null 2>&1 || true
 }
+
+# `omacase workspace <name>` — switch the active AeroSpace workspace. Lets the
+# generated Spotlight launchers (Omacase 1…9) drive AeroSpace, not just keys.
+omacase_workspace() {
+  local n="${1:-}"
+  [ -n "$n" ] || abort "usage: omacase workspace <1-9>"
+  have aerospace || abort "workspace switching needs AeroSpace (active profile: $(cat "$OMACASE_STATE/wm" 2>/dev/null || echo unknown))."
+  run aerospace workspace "$n"
+}

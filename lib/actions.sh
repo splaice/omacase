@@ -76,19 +76,19 @@ omacase_appearance() {
 # Display name | omacase subcommand+args. Names are picked to be distinct in
 # Spotlight (e.g. "Google Photos", not "Photos", which collides with Photos.app).
 _LAUNCHERS=(
-  "Omacase ChatGPT|webapp chatgpt"
-  "Omacase Grok|webapp grok"
-  "Omacase Mail|webapp email"
-  "Omacase Cal|webapp calendar"
-  "Omacase Hey Mail|webapp hey-mail"
-  "Omacase Hey Calendar|webapp hey-cal"
-  "Omacase YouTube|webapp youtube"
-  "Omacase WhatsApp|webapp whatsapp"
-  "Omacase Messages|webapp messages"
-  "Omacase Photos|webapp photos"
-  "Omacase X|webapp x"
-  "Omacase X Post|webapp x-post"
-  "Omacase Appearance|appearance toggle"
+  "Oma ChatGPT|webapp chatgpt"
+  "Oma Grok|webapp grok"
+  "Oma Mail|webapp email"
+  "Oma Cal|webapp calendar"
+  "Oma Hey Mail|webapp hey-mail"
+  "Oma Hey Calendar|webapp hey-cal"
+  "Oma YouTube|webapp youtube"
+  "Oma WhatsApp|webapp whatsapp"
+  "Oma Messages|webapp messages"
+  "Oma Photos|webapp photos"
+  "Oma X|webapp x"
+  "Oma X Post|webapp x-post"
+  "Oma Appearance|appearance toggle"
 )
 
 omacase_launchers() {
@@ -110,17 +110,31 @@ omacase_launchers() {
     done
   fi
 
+  # Web-app / action launchers, plus one per AeroSpace workspace (Oma 1…9)
+  # so workspaces are switchable from Spotlight, not just the Super+N keys.
+  local entries=("${_LAUNCHERS[@]}") i
+  for i in 1 2 3 4 5 6 7 8 9; do entries+=("Oma $i|workspace $i"); done
+
   local entry name args app tmp
-  for entry in "${_LAUNCHERS[@]}"; do
+  for entry in "${entries[@]}"; do
     name="${entry%%|*}"; args="${entry#*|}"
     app="$dir/$name.app"
     if is_dryrun; then printf '\033[2m[dry-run]\033[0m create %s → omacase %s\n' "$app" "$args"; continue; fi
     rm -rf "$app"
     # Launchers run with a minimal PATH, so set Homebrew + call omacase by path.
+    # `quit` makes the applet terminate after running, so each launch re-runs the
+    # command — otherwise it stays resident and a relaunch just reactivates the
+    # idle instance (the script never fires again).
     tmp="$(mktemp).applescript"
-    printf 'do shell script "export PATH=/opt/homebrew/bin:$PATH; %s %s"\n' "$bin" "$args" > "$tmp"
+    printf 'do shell script "export PATH=/opt/homebrew/bin:$PATH; %s %s"\ntell me to quit\n' "$bin" "$args" > "$tmp"
     if osacompile -o "$app" "$tmp" >/dev/null 2>&1; then
       : > "$app/Contents/Resources/.omacase-launcher"   # marker for clean removal
+      # Run as an agent (LSUIElement): the launcher never becomes the frontmost
+      # app, so it can't steal focus or — critically for the `workspace N`
+      # launchers — bounce AeroSpace back when it quits. Also keeps them out of
+      # the Dock / ⌘-Tab.
+      /usr/libexec/PlistBuddy -c "Add :LSUIElement bool true" "$app/Contents/Info.plist" >/dev/null 2>&1 \
+        || /usr/libexec/PlistBuddy -c "Set :LSUIElement true" "$app/Contents/Info.plist" >/dev/null 2>&1
       success "$name"
     else
       warn "failed to build $name"

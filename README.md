@@ -25,7 +25,7 @@ omacase doctor      # grant Accessibility to AeroSpace, SketchyBar, Karabiner
 | Borders | **JankyBorders** |
 | Launcher | **Spotlight** (built in — Tahoe actions, clipboard, Quick Keys) |
 | Keyboard | **Karabiner-Elements** |
-| Terminal | **Ghostty** + zsh/Starship + modern CLI set |
+| Terminal | **Ghostty** + zsh/Starship + tmux + modern CLI set |
 | Editor | **Neovim/LazyVim** + Zed |
 | Packages | **Homebrew + Brewfile** |
 | Dotfiles | **Omacase-owned symlinks** (`home/`) — won't collide with your own chezmoi/stow |
@@ -39,9 +39,10 @@ omacase update             # pull + brew bundle + re-apply everything
 omacase theme [name]       # retheme everything: apps + macOS Light/Dark + wallpaper
 omacase webapp [name]      # open an Omarchy web app (for a Spotlight Shortcut)
 omacase appearance [...]   # toggle/set macOS Light/Dark (toggle|dark|light)
-omacase launchers [...]    # build Spotlight .app launchers for web apps (build|remove)
+omacase launchers [...]    # build Spotlight "Oma …" launchers: web apps + workspaces (build|remove)
 omacase wm aerospace|yabai # switch window-manager profile
-omacase grid               # arrange the focused AeroSpace workspace into a 2x2 grid
+omacase grid               # toggle the focused AeroSpace workspace into a 2x2 grid
+omacase workspace <1-9>    # switch AeroSpace workspace (alias: ws)
 omacase doctor             # check perms, SIP, missing grants
 omacase backup [label]     # snapshot current dotfiles & macOS defaults
 omacase restore [id]       # roll back to a snapshot (--list to see them)
@@ -67,6 +68,10 @@ Launcher — **Spotlight** (built in; no third-party launcher):
 
 > Nothing to configure — `⌘Space` is Spotlight by default. If a previous launcher
 > took it, re-enable System Settings → Keyboard → Keyboard Shortcuts → Spotlight.
+
+`omacase launchers` builds `.app` launchers (all prefixed **`Oma `**) so Spotlight
+can open web apps and switch workspaces: type **`Oma`** to see them all — `Oma Mail`,
+`Oma ChatGPT`, …, and `Oma 1`…`Oma 9` (switch to AeroSpace workspace N).
 
 **Super** = **right ⌘**, remapped by Karabiner to `⌃⌥⌘`
 (`home/dot_config/karabiner/karabiner.json`) — Hyper *minus* Shift, so `Super+Shift`

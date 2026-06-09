@@ -36,12 +36,14 @@ omacase launchers          # build ~/Applications/*.app for every web app + Togg
 omacase launchers remove   # delete them again (only the ones omacase made)
 ```
 
-All launchers are named with an **`Omacase ` prefix**, so typing "Omacase" in
-Spotlight (`⌘Space`) lists them all: **Omacase ChatGPT, Omacase Grok, Omacase Mail**
-(Gmail), **Omacase Cal** (Google Calendar), **Omacase YouTube, Omacase WhatsApp,
-Omacase Messages, Omacase Photos, Omacase X, Omacase X Post, Omacase Appearance**.
-First launch of *Omacase Appearance* prompts once for Automation. (The Super key
-drives AeroSpace now, so these are invoked by typing in Spotlight, not a Super chord.)
+All launchers are named with an **`Oma ` prefix**, so typing "Oma" in
+Spotlight (`⌘Space`) lists them all: **Oma ChatGPT, Oma Grok, Oma Mail**
+(Gmail), **Oma Cal** (Google Calendar), **Oma YouTube, Oma WhatsApp,
+Oma Messages, Oma Photos, Oma X, Oma X Post, Oma Appearance**,
+plus **Oma 1 … 9** (switch to AeroSpace workspace N — the Spotlight equivalent
+of `Super + 1…9`). First launch of *Oma Appearance* prompts once for Automation.
+(The Super key drives AeroSpace now, so these are invoked by typing in Spotlight,
+not a Super chord.)
 
 **Or by hand as a Shortcut** (gets auto-learned Quick Keys, unlike a `.app`):
 Shortcuts app → New Shortcut → "Run Shell Script", paste a command, name it:
