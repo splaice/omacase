@@ -8,19 +8,22 @@ omacase_install() {
   dryrun_banner
   source "$OMACASE_ROOT/lib/backup.sh"
 
-  step "1/8  Packages & apps (brew bundle)"
+  step "1/9  Packages & apps (brew bundle)"
   run brew bundle --file="$OMACASE_ROOT/Brewfile" || warn "Some brew items failed; re-run later."
 
-  step "2/8  Safety backup (so this is reversible)"
+  step "2/9  Link the \`omacase\` command onto PATH"
+  _link_command
+
+  step "3/9  Safety backup (so this is reversible)"
   _auto_backup
 
-  step "3/8  Dotfiles (symlinks)"
+  step "4/9  Dotfiles (symlinks)"
   _link_dotfiles
 
-  step "4/8  macOS defaults"
+  step "5/9  macOS defaults"
   bash "$OMACASE_ROOT/macos/defaults.sh"   # honors OMACASE_DRYRUN itself
 
-  step "5/8  Theme"
+  step "6/9  Theme"
   source "$OMACASE_ROOT/lib/theme.sh"
   omacase_theme "$(cat "$OMACASE_STATE/theme" 2>/dev/null || echo catppuccin-mocha)"
   # Theme switching flips macOS Light/Dark; that needs Automation consent, which
@@ -28,16 +31,16 @@ omacase_install() {
   is_dryrun || can_set_appearance || \
     warn "Grant your terminal Automation → System Events so themes can sync macOS Light/Dark (\`omacase doctor\` re-checks)."
 
-  step "6/8  Window manager + services"
+  step "7/9  Window manager + services"
   check_loop_conflict || true   # Loop fights AeroSpace/yabai; offer to quit it first
   source "$OMACASE_ROOT/lib/wm.sh"
   omacase_wm "$(cat "$OMACASE_STATE/wm" 2>/dev/null || echo aerospace)"
 
-  step "7/8  Spotlight launchers (web apps + appearance toggle)"
+  step "8/9  Spotlight launchers (web apps + appearance toggle)"
   source "$OMACASE_ROOT/lib/actions.sh"
   omacase_launchers build || warn "Some launchers failed; re-run with \`omacase launchers build\`."
 
-  step "8/8  Launch desktop apps (triggers their permission prompts)"
+  step "9/9  Launch desktop apps (triggers their permission prompts)"
   _launch_apps
 
   step "Done"
@@ -46,6 +49,20 @@ omacase_install() {
   warn "  (plus Automation → System Events so themes can sync macOS Light/Dark)."
   warn "macOS requires those grants by hand — no installer can click them for you."
   warn "Don't like the result? \`omacase restore\` rolls back to the pre-install snapshot."
+}
+
+# Make `omacase` available on PATH for every shell (zsh/bash/fish) and for GUI
+# contexts, by symlinking it into Homebrew's bin — already on PATH wherever brew
+# is, and guaranteed to exist (brew is a hard dependency installed in step 1).
+# This is what `brew link` does for formulae; idempotent via `ln -sfn`.
+_link_command() {
+  local bindir; bindir="$(_omacase_bindir)"
+  if [ -z "$bindir" ]; then
+    warn "No Homebrew bin dir found; \`omacase\` stays available via ~/.zshrc only."
+    return 0
+  fi
+  run ln -sfn "$OMACASE_ROOT/bin/omacase" "$bindir/omacase"
+  is_dryrun || success "omacase → $bindir/omacase"
 }
 
 # GUI helpers that must be running (and granted permissions) for the system to
@@ -100,6 +117,11 @@ omacase_uninstall() {
     target="$HOME/$(printf '%s' "$rel" | sed -e 's#^dot_#.#' -e 's#/dot_#/.#g')"
     _is_omacase_link "$target" && run rm -f "$target"
   done < <(find "$src" -type f ! -name '.DS_Store')
+
+  # Remove the `omacase` command symlink from Homebrew's bin (only if it's ours).
+  local cmd; for cmd in "$(brew --prefix 2>/dev/null)/bin/omacase" /opt/homebrew/bin/omacase /usr/local/bin/omacase; do
+    _is_omacase_link "$cmd" && run rm -f "$cmd"
+  done
 
   success "Omacase symlinks removed."
   log "To bring back your original config: omacase restore   (see: omacase restore --list)"

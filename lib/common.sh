@@ -34,6 +34,15 @@ ensure_brew_env() {
 
 have() { command -v "$1" >/dev/null 2>&1; }
 
+# The directory the `omacase` command is symlinked into so it lands on PATH:
+# Homebrew's bin (already on PATH wherever brew is). Falls back to the standard
+# Apple-Silicon / Intel prefixes if `brew --prefix` isn't resolvable.
+_omacase_bindir() {
+  local prefix; prefix="$(brew --prefix 2>/dev/null)"
+  [ -n "$prefix" ] && [ -d "$prefix/bin" ] || prefix="$( [ -d /opt/homebrew/bin ] && echo /opt/homebrew || echo /usr/local )"
+  [ -d "$prefix/bin" ] && printf '%s\n' "$prefix/bin"
+}
+
 # --- dry run -----------------------------------------------------------------
 # Set OMACASE_DRYRUN=1 to print mutating commands instead of running them.
 # Wrap every side-effecting command (brew, chezmoi, ln, defaults, services…)

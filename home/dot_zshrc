@@ -2,7 +2,7 @@
 if [ -x /opt/homebrew/bin/brew ]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
 
 export EDITOR=nvim
-export PATH="$HOME/.local/bin:$HOME/.local/share/omacase/bin:$PATH"   # user bins + the `omacase` command
+export PATH="$HOME/.local/bin:$PATH"   # user bins (`omacase` itself is linked into Homebrew's bin by `omacase install`)
 
 # Modern replacements.
 alias ls='eza --group-directories-first --icons'

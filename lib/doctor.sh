@@ -11,6 +11,23 @@ omacase_doctor() {
     if have "$c"; then success "$c installed"; else error "$c missing — run \`omacase install\`"; issues=$((issues + 1)); fi
   done
 
+  step "Command on PATH (\`omacase\`)"
+  local bindir link want; bindir="$(_omacase_bindir)"; want="$OMACASE_ROOT/bin/omacase"
+  if [ -z "$bindir" ]; then
+    warn "No Homebrew bin dir found — can't link \`omacase\` onto PATH."; issues=$((issues + 1))
+  else
+    link="$bindir/omacase"
+    if [ "$(readlink "$link" 2>/dev/null)" = "$want" ]; then
+      success "\`omacase\` → $link"
+    elif [ -e "$link" ] && [ ! -L "$link" ]; then
+      warn "$link exists and isn't a symlink — leaving it alone."; issues=$((issues + 1))
+    else
+      warn "\`omacase\` not linked onto PATH — repairing → $link"
+      run ln -sfn "$want" "$link"
+      is_dryrun || success "linked \`omacase\` → $link"
+    fi
+  fi
+
   step "Backups"
   source "$OMACASE_ROOT/lib/backup.sh"
   local last; last="$(cat "$OMACASE_STATE/last-backup" 2>/dev/null)"
