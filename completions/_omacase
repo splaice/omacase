@@ -1,0 +1,82 @@
+#compdef omacase
+# Tab completion for `omacase`. `omacase install` links this file into
+# Homebrew's share/zsh/site-functions (already on fpath via `brew shellenv`,
+# wired live by compinit in the managed ~/.zshrc); `omacase doctor` repairs the
+# link. Dynamic values — themes, web apps, snapshots — are read from the repo
+# and state dirs at completion time, so they never drift from the CLI.
+
+_omacase() {
+  local curcontext="$curcontext" state line ret=1
+  typeset -A opt_args
+
+  _arguments -C \
+    '1:command:->command' \
+    '*::argument:->argument' && ret=0
+
+  # Repo root, resolved through the bin symlink (works from any install path).
+  local root=${commands[omacase]:A:h:h}
+
+  case $state in
+    command)
+      local -a subcommands=(
+        'install:full idempotent setup (re-runnable)'
+        'update:git pull + brew bundle + re-apply dotfiles & defaults'
+        'theme:apply a theme everywhere (no name = list/pick)'
+        'webapp:open an Omarchy web app (no name = list)'
+        'appearance:toggle/set macOS Light/Dark'
+        'launchers:generate Spotlight .app launchers for web apps'
+        'wm:switch window-manager profile'
+        'grid:arrange the focused AeroSpace workspace into a 2x2 grid'
+        'workspace:switch to an AeroSpace workspace (1-9)'
+        'ws:switch to an AeroSpace workspace (1-9)'
+        'doctor:check permissions, SIP state, and missing grants'
+        'backup:snapshot current dotfiles & macOS defaults'
+        'restore:roll back to a snapshot (--list to see them)'
+        'config:open the config directory'
+        'menu:interactive TUI'
+        'version:print version'
+        'uninstall:remove omacase-managed config (keeps your apps)'
+        'help:show usage'
+      )
+      _describe -t commands 'omacase command' subcommands && ret=0
+      ;;
+    argument)
+      case $line[1] in
+        theme)
+          local -a themes=( $root/themes/*(N/:t) )
+          _describe -t themes 'theme' themes && ret=0
+          ;;
+        webapp)
+          # Source of truth: the _webapp_names list in lib/actions.sh.
+          local -a apps=( ${(z)"$(sed -n 's/^_webapp_names="\(.*\)"/\1/p' $root/lib/actions.sh 2>/dev/null)"} list )
+          _describe -t webapps 'web app' apps && ret=0
+          ;;
+        appearance)
+          _values 'appearance' toggle dark light && ret=0
+          ;;
+        launchers)
+          _values 'action' build remove && ret=0
+          ;;
+        wm)
+          local -a profiles=(
+            'aerospace:default profile, no SIP changes'
+            'yabai:advanced profile, needs SIP partially disabled'
+          )
+          _describe -t profiles 'window manager' profiles && ret=0
+          ;;
+        workspace|ws|grid)
+          _values 'workspace' 1 2 3 4 5 6 7 8 9 && ret=0
+          ;;
+        restore)
+          local backups=${OMACASE_STATE:-$HOME/.local/state/omacase}/backups
+          local -a snapshots=( $backups/*(N/:t) ) flags=( '--list:list snapshots' )
+          _describe -t snapshots 'snapshot' snapshots -- flags && ret=0
+          ;;
+      esac
+      ;;
+  esac
+
+  return ret
+}
+
+_omacase "$@"

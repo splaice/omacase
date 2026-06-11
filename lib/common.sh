@@ -43,6 +43,14 @@ _omacase_bindir() {
   [ -d "$prefix/bin" ] && printf '%s\n' "$prefix/bin"
 }
 
+# Homebrew's zsh completion dir (sibling of bin). Anything linked here is
+# completable in every shell: `brew shellenv` puts it on fpath, and the managed
+# ~/.zshrc runs compinit.
+_omacase_zfuncdir() {
+  local bindir; bindir="$(_omacase_bindir)"
+  [ -n "$bindir" ] && printf '%s\n' "${bindir%/bin}/share/zsh/site-functions"
+}
+
 # --- dry run -----------------------------------------------------------------
 # Set OMACASE_DRYRUN=1 to print mutating commands instead of running them.
 # Wrap every side-effecting command (brew, chezmoi, ln, defaults, services…)

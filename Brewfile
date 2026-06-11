@@ -32,6 +32,7 @@ brew "btop"              # system monitor
 brew "atuin"             # shell history
 brew "git-delta"         # git diffs
 brew "tmux"              # multiplexer
+brew "zsh-completions"   # extra completion defs beyond zsh's bundled set (wired in dot_zshrc)
 
 # --- Editor & dev -----------------------------------------------------------
 brew "neovim"            # + LazyVim (seeded via dotfiles)

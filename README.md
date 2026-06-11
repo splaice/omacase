@@ -59,6 +59,12 @@ omacase menu               # gum TUI (wrap in a Shortcut to launch from Spotligh
 > Light/Dark, the Claude Code CLI theme, and the desktop wallpaper to match.
 > Pick from 19 Omarchy themes (run `omacase theme` to list).
 
+> **Tab-complete everything.** `omacase <Tab>` completes subcommands, and the
+> arguments complete from live data — theme names, web apps, snapshot IDs,
+> `wm`/`appearance`/`launchers` options. The managed zshrc also switches on
+> zsh's completion system itself (`compinit`), so git, brew, aerospace, and
+> every Homebrew tool that ships completions Tab-complete too.
+
 ## Keybinds
 
 Launcher — **Spotlight** (built in; no third-party launcher):

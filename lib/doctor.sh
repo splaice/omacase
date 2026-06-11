@@ -28,6 +28,31 @@ omacase_doctor() {
     fi
   fi
 
+  step "Shell completion (zsh)"
+  local zfunc comp; zfunc="$(_omacase_zfuncdir)"; comp="$OMACASE_ROOT/completions/_omacase"
+  if [ -z "$zfunc" ]; then
+    warn "No Homebrew prefix found — can't link zsh completion."; issues=$((issues + 1))
+  elif [ "$(readlink "$zfunc/_omacase" 2>/dev/null)" = "$comp" ]; then
+    success "_omacase → $zfunc/_omacase  (omacase <Tab> completes; compinit runs via ~/.zshrc)"
+  else
+    warn "zsh completion not linked — repairing → $zfunc/_omacase"
+    run mkdir -p "$zfunc"
+    run ln -sfn "$comp" "$zfunc/_omacase"
+    is_dryrun || success "linked _omacase → $zfunc/_omacase  (open a new shell to pick it up)"
+  fi
+  # Group-writable dirs above an fpath entry make compinit prompt "insecure
+  # directories?" on every new shell (brew installs can re-add go-w to share/).
+  if [ -n "$zfunc" ]; then
+    local share="${zfunc%/zsh/site-functions}" insecure
+    insecure="$(find "$share" "$share/zsh" "$zfunc" "$share/zsh-completions" -maxdepth 0 -perm +022 2>/dev/null)"
+    if [ -n "$insecure" ]; then
+      warn "group/world-writable completion dirs (compinit will nag) — fixing: $insecure"
+      run chmod go-w $insecure 2>/dev/null || true
+    else
+      success "completion dirs pass compaudit (no group-writable parents)"
+    fi
+  fi
+
   step "Backups"
   source "$OMACASE_ROOT/lib/backup.sh"
   local last; last="$(cat "$OMACASE_STATE/last-backup" 2>/dev/null)"

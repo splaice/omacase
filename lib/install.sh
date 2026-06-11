@@ -11,7 +11,7 @@ omacase_install() {
   step "1/9  Packages & apps (brew bundle)"
   run brew bundle --file="$OMACASE_ROOT/Brewfile" || warn "Some brew items failed; re-run later."
 
-  step "2/9  Link the \`omacase\` command onto PATH"
+  step "2/9  Link \`omacase\` onto PATH + shell completion"
   _link_command
 
   step "3/9  Safety backup (so this is reversible)"
@@ -63,6 +63,17 @@ _link_command() {
   fi
   run ln -sfn "$OMACASE_ROOT/bin/omacase" "$bindir/omacase"
   is_dryrun || success "omacase → $bindir/omacase"
+
+  # Tab completion: link _omacase next to Homebrew's other completions.
+  # Group-writable dirs anywhere above an fpath entry make compinit prompt
+  # "insecure directories?" on every new shell, so strip go-w on the whole
+  # chain (Homebrew's documented fix; brew installs can re-add it to share/).
+  local zfunc; zfunc="$(_omacase_zfuncdir)"
+  local share="${zfunc%/zsh/site-functions}"
+  run mkdir -p "$zfunc"
+  run ln -sfn "$OMACASE_ROOT/completions/_omacase" "$zfunc/_omacase"
+  run chmod go-w "$share" "$share/zsh" "$zfunc" "$share/zsh-completions" 2>/dev/null || true
+  is_dryrun || success "completion → $zfunc/_omacase"
 }
 
 # GUI helpers that must be running (and granted permissions) for the system to
@@ -118,8 +129,12 @@ omacase_uninstall() {
     _is_omacase_link "$target" && run rm -f "$target"
   done < <(find "$src" -type f ! -name '.DS_Store')
 
-  # Remove the `omacase` command symlink from Homebrew's bin (only if it's ours).
-  local cmd; for cmd in "$(brew --prefix 2>/dev/null)/bin/omacase" /opt/homebrew/bin/omacase /usr/local/bin/omacase; do
+  # Remove the `omacase` command + completion symlinks from Homebrew (only ours).
+  local prefix cmd; prefix="$(brew --prefix 2>/dev/null)"
+  for cmd in "$prefix/bin/omacase" /opt/homebrew/bin/omacase /usr/local/bin/omacase \
+             "$prefix/share/zsh/site-functions/_omacase" \
+             /opt/homebrew/share/zsh/site-functions/_omacase \
+             /usr/local/share/zsh/site-functions/_omacase; do
     _is_omacase_link "$cmd" && run rm -f "$cmd"
   done
 
