@@ -6,6 +6,12 @@ An opinionated, tiling macOS — installed, configured, themed, and managed from
 single command. Omarchy's ethos (keyboard-first, one consistent theme everywhere,
 one-command reproducible) translated to where macOS actually wants to go.
 
+
+**The Rules**
+ - The first rule of Omacase is that we don't fight with MacOS. We compromise 
+polish for ease of maintenance.
+- The second rule of Omacase is that it uninstalls just as easily as it installs.
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/splaice/omacase/main/boot.sh)"
 ```

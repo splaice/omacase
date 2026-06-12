@@ -33,6 +33,11 @@ brew "atuin"             # shell history
 brew "git-delta"         # git diffs
 brew "tmux"              # multiplexer
 brew "zsh-completions"   # extra completion defs beyond zsh's bundled set (wired in dot_zshrc)
+brew "glow"              # markdown rendered in the terminal (read READMEs where you are)
+brew "dust"              # du
+brew "jq"                # JSON wrangling
+brew "tldr"              # example-first man pages
+brew "fastfetch"         # branded system summary (`omacase menu` → About); config in home/
 
 # --- Editor & dev -----------------------------------------------------------
 brew "neovim"            # + LazyVim (seeded via dotfiles)
