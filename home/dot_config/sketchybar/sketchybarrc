@@ -105,7 +105,7 @@ chmod +x "$HOME/.config/sketchybar/caffeine.sh"
 
 # Added after the clock so it sits just left of it on the right side.
 sketchybar --add item caffeine right \
-  --set caffeine icon=$'\uf0f4' icon.font="JetBrainsMono Nerd Font:Bold:15.0" \
+  --set caffeine icon=$'\xef\x83\xb4' icon.font="JetBrainsMono Nerd Font:Bold:15.0" \
     icon.color="$MUTED" label.drawing=off padding_left=6 padding_right=6 \
     click_script="$HOME/.config/sketchybar/caffeine.sh toggle" \
     script="$HOME/.config/sketchybar/caffeine.sh" \
