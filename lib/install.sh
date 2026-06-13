@@ -102,11 +102,11 @@ _link_command() {
 }
 
 # GUI helpers that must be running (and granted permissions) for the system to
-# work: Karabiner mints the Super key, Ice is QoL. The launcher is Spotlight
-# (a system service, nothing to launch). open -a is a no-op if already running.
+# work: Karabiner mints the Super key. The launcher is Spotlight (a system
+# service, nothing to launch). open -a is a no-op if already running.
 _launch_apps() {
   local app
-  for app in "Karabiner-Elements" "Ice"; do
+  for app in "Karabiner-Elements"; do
     [ -d "/Applications/$app.app" ] && run open -a "$app" || true
   done
   warn "Karabiner needs Input Monitoring + its driver extension enabled — a by-hand"

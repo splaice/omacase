@@ -240,9 +240,6 @@ run = 'layout floating'
 if.app-id = 'org.pqrs.Karabiner-EventViewer'
 run = 'layout floating'
 [[on-window-detected]]
-if.app-id = 'com.jordanbaird.Ice'
-run = 'layout floating'
-[[on-window-detected]]
 if.app-id = 'com.naotanhaocan.BetterMouse'
 run = 'layout floating'
 [[on-window-detected]]
