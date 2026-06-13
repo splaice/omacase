@@ -243,19 +243,22 @@ end run
 OSA
 }
 
-# Toggle a chromeless, centered Ghostty TUI popup. $1 = window-title match,
-# $2 = the shell command to run. Reveal: NEW WINDOW in the existing (undecorated)
-# instance — not a 2nd instance, which trips Ghostty's session-restore prompt —
-# type the command (passed via argv to dodge AppleScript escaping), float it off
-# the tiling, center it. Hide: if its window is up, send "q". Commands should
-# `exec` the TUI so quitting it closes the window cleanly.
+# Toggle a chromeless, centered Ghostty TUI popup.
+#   $1 = window-title match (for centering)
+#   $2 = shell command to run (should `exec` the TUI so closing it ends cleanly)
+#   $3 = pgrep/pkill pattern uniquely identifying the TUI process
+# Hide: kill the marked process — its exec'd Ghostty window then closes on its
+# own. We close by PROCESS, not a synthetic "q" keystroke, because this runs
+# from a keybind where the still-held Super/Shift modifiers would corrupt the
+# keystroke (Super = ⌃⌥⌘, so a sent "q" lands as ⌘Q etc.).
+# Reveal: NEW WINDOW in the existing (undecorated) instance — not a 2nd instance,
+# which trips Ghostty's session-restore prompt — type the command (the 0.4s
+# delay lets the trigger keys release so the type-ahead lands), float, center.
 _ghostty_popup_toggle() {
   ensure_brew_env
-  local match="$1" cmd="$2"
-  if osascript -e "tell application \"System Events\" to tell process \"Ghostty\" to (exists (first window whose name contains \"$match\"))" 2>/dev/null | grep -q true; then
-    osascript -e 'tell application "Ghostty" to activate' \
-              -e "tell application \"System Events\" to tell process \"Ghostty\" to perform action \"AXRaise\" of (first window whose name contains \"$match\")" \
-              -e 'tell application "System Events" to keystroke "q"' 2>/dev/null
+  local match="$1" cmd="$2" proc="$3"
+  if pgrep -f "$proc" >/dev/null 2>&1; then
+    pkill -f "$proc"
     return 0
   fi
   osascript -e 'tell application "Ghostty" to activate' \
@@ -327,14 +330,18 @@ update_ms = 1000
 shown_boxes = "cpu mem net"
 BTOPCONF
   fi
-  _ghostty_popup_toggle "btop" "exec btop -c '$popup_conf'"
+  _ghostty_popup_toggle "btop" "exec btop -c '$popup_conf'" "omacase-popup"
 }
 
 # `omacase files` — toggle a ranger file-manager popup (Super+Shift+F). ranger
 # leaves the title alone (update_title defaults false), so we set it via OSC and
-# match "omacase-files".
+# match "omacase-files" for centering. Passing the (default) --confdir gives the
+# process a unique argv marker to pgrep/pkill on, without changing ranger's
+# behavior or losing the user's ranger config.
 omacase_files() {
-  _ghostty_popup_toggle "omacase-files" "printf '\033]0;omacase-files\007'; exec ranger"
+  _ghostty_popup_toggle "omacase-files" \
+    "printf '\033]0;omacase-files\007'; exec ranger --confdir='$HOME/.config/ranger'" \
+    "ranger --confdir"
 }
 
 # `omacase browser` — open/focus the system default browser (Super+B). Reads the
