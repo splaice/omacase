@@ -8,22 +8,25 @@ omacase_wm() {
   is_dryrun || echo "aerospace" > "$OMACASE_STATE/wm"
 }
 
-_wm_stop_all() {
-  pgrep -x AeroSpace >/dev/null && run osascript -e 'quit app "AeroSpace"' 2>/dev/null || true
-}
-
 _wm_start_shared() {
   run brew services start splaice/formulae/borders 2>/dev/null || warn "borders not installed?"
   run brew services start sketchybar 2>/dev/null || warn "sketchybar not installed?"
 }
 
 _wm_use_aerospace() {
+  ensure_brew_env   # may be invoked from the menu/popup, whose PATH lacks Homebrew
   info "Profile: AeroSpace (no SIP disable required)"
-  _wm_stop_all
-  # AeroSpace runs as a regular app from /Applications, started at login via
-  # its own config (start-at-login = true). Just launch it now.
-  run open -a AeroSpace 2>/dev/null || warn "AeroSpace not installed — check Brewfile/brew bundle."
+  # NEVER quit-then-relaunch: `open -a` can fire while the quit is still in
+  # flight, the relaunch gets dropped, and AeroSpace is left DOWN (which breaks
+  # the SketchyBar workspace list). Instead: if it's up, reload its config; if
+  # it's down, launch it. It also starts at login via its own config.
+  if pgrep -x AeroSpace >/dev/null; then
+    run aerospace reload-config 2>/dev/null || true
+  else
+    run open -a AeroSpace 2>/dev/null || warn "AeroSpace not installed — check Brewfile/brew bundle."
+  fi
   _wm_start_shared
+  run sketchybar --reload 2>/dev/null || true   # repopulate the workspace list against current WM state
   success "AeroSpace active. Super+WASD focus, Super+Shift+WASD move, Super+[1-9] workspaces."
 }
 
