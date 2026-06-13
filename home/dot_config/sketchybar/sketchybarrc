@@ -3,7 +3,8 @@
 # Each workspace item shows its number plus an icon for every app open in it
 # (chryoung's pure-shell AeroSpace plugin, FelixKratz/SketchyBar discussion #12,
 # adapted to omacase's theme + inlined-helper style). Focus shows by color and
-# an ACCENT outline. The strip sits on the right, left of the caffeine toggle.
+# an ACCENT outline. The strip sits on the right (reversed, space.N…space.1);
+# the caffeine stay-awake toggle sits on the far left.
 # Theme colors come from ~/.config/sketchybar/theme.sh (set by `omacase theme`).
 source "$HOME/.config/sketchybar/theme.sh" 2>/dev/null || true
 : "${BAR_COLOR:=0xff1e1e2e}" "${LABEL_COLOR:=0xffcdd6f4}" "${ACCENT:=0xff89b4fa}" "${MUTED:=0xff6c7086}"
@@ -115,8 +116,9 @@ HANDLER
 chmod +x "$HOME/.config/sketchybar/space_handler.sh"
 
 # One item per AeroSpace workspace, on the right. Transparent pill; the handler
-# paints the ACCENT outline on the focused one. Built ascending; --reorder below
-# pins the left-to-right order (space.1 … space.N, then caffeine).
+# paints the ACCENT outline on the focused one. `order` is built ascending
+# (space.1 … space.N); --reorder lays items out as the reverse of its list, so
+# the strip reads high→low left-to-right (space.N … space.1, space.1 far right).
 order=""
 for wid in $("$AEROSPACE" list-workspaces --all 2>/dev/null | sort -n); do
   sketchybar --add item "space.$wid" right \
@@ -172,16 +174,17 @@ fi
 CAFFEINE
 chmod +x "$HOME/.config/sketchybar/caffeine.sh"
 
-# Stay-awake toggle: rightmost item.
-sketchybar --add item caffeine right \
+# Stay-awake toggle: far-left item.
+sketchybar --add item caffeine left \
   --set caffeine icon=$'\xef\x83\xb4' icon.font="JetBrainsMono Nerd Font:Bold:15.0" \
     icon.color="$MUTED" label.drawing=off padding_left=6 padding_right=6 \
     click_script="$HOME/.config/sketchybar/caffeine.sh toggle" \
     script="$HOME/.config/sketchybar/caffeine.sh" \
   --subscribe caffeine system_woke
 
-# Pin left-to-right order, then paint initial state: the trigger runs every
-# space handler (highlight + icons); --update runs the caffeine script.
-sketchybar --reorder $order caffeine
+# Pin the reversed workspace order (caffeine sits alone on the left), then paint
+# initial state: the trigger runs every space handler (highlight + icons);
+# --update runs the caffeine script.
+sketchybar --reorder $order
 sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$("$AEROSPACE" list-workspaces --focused 2>/dev/null)"
 sketchybar --update
