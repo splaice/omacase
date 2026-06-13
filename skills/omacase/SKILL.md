@@ -57,5 +57,5 @@ config by hand — the CLI keeps state and re-applies themes/WM consistently.
 - "Change the theme" → `omacase theme tokyo-night` (or list with `omacase theme`).
 - "Tiling stopped working" → `omacase doctor`; check AeroSpace is running and granted Accessibility.
 - "Add an app" → add a line to `Brewfile`, then `omacase update`.
-- "Tweak a keybind" → edit `home/dot_config/aerospace/aerospace.toml` (it's symlinked, so changes are live; reload AeroSpace with Alt+Shift+c).
+- "Tweak a keybind" → edit `home/dot_config/aerospace/aerospace.toml` (it's symlinked, so changes are live; reload AeroSpace with Super+Shift+c).
 - "Undo / I don't like this" → `omacase restore` (or `omacase restore --list` then `omacase restore <id>`).

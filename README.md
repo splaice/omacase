@@ -97,6 +97,14 @@ Terminal:
 | `Super + Return` | New Ghostty window |
 | `Super + Shift + Return` | Ghostty into tmux (attaches/creates session `main`) |
 
+Apps & overlays (reveal/hide a centered float):
+| Keys | Action |
+|---|---|
+| `Super + B` | Open / focus the system default browser |
+| `Super + Shift + F` | Toggle a centered ranger file popup (`Super + F` is fullscreen) |
+| `Super + M` | Toggle a music overlay (`omacase music apple` for Apple Music) |
+| `Super + O` | Toggle an Obsidian overlay |
+
 Focus & move (WASD — W up, A left, S down, D right):
 | Keys | Action |
 |---|---|

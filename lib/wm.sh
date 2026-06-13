@@ -37,7 +37,7 @@ _wm_use_aerospace() {
   # its own config (start-at-login = true). Just launch it now.
   run open -a AeroSpace 2>/dev/null || warn "AeroSpace not installed — check Brewfile/brew bundle."
   _wm_start_shared
-  success "AeroSpace active. Alt+hjkl focus, Alt+Shift+hjkl move, Alt+[1-9] workspaces."
+  success "AeroSpace active. Super+WASD focus, Super+Shift+WASD move, Super+[1-9] workspaces."
 }
 
 _wm_use_yabai() {
