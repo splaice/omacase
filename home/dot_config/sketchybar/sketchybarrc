@@ -1,5 +1,5 @@
 #!/bin/bash
-# omacase SketchyBar — minimal AeroSpace workspace strip + clock.
+# omacase SketchyBar — minimal AeroSpace workspace strip + stay-awake toggle.
 # Theme colors come from ~/.config/sketchybar/theme.sh (set by `omacase theme`).
 source "$HOME/.config/sketchybar/theme.sh" 2>/dev/null || true
 : "${BAR_COLOR:=0xff1e1e2e}" "${LABEL_COLOR:=0xffcdd6f4}" "${ACCENT:=0xff89b4fa}" "${MUTED:=0xff6c7086}"
@@ -58,11 +58,6 @@ SH
 chmod +x "$HOME/.config/sketchybar/highlight.sh"
 sketchybar --set '/space\..*/' script="$HOME/.config/sketchybar/highlight.sh"
 
-# Clock on the right.
-sketchybar --add item clock right \
-  --set clock update_freq=10 script='sketchybar --set clock label="$(date +"%a %d %b  %H:%M")"' \
-  --subscribe clock system_woke
-
 # Caffeine / stay-awake toggle (replaces Taurine). Click holds a power
 # assertion via the built-in `caffeinate` — no app needed. The assertion lives
 # in its own process, so we track it by pidfile: state survives bar reloads,
@@ -103,7 +98,7 @@ fi
 SH
 chmod +x "$HOME/.config/sketchybar/caffeine.sh"
 
-# Added after the clock so it sits just left of it on the right side.
+# Stay-awake toggle on the right.
 sketchybar --add item caffeine right \
   --set caffeine icon=$'\xef\x83\xb4' icon.font="JetBrainsMono Nerd Font:Bold:15.0" \
     icon.color="$MUTED" label.drawing=off padding_left=6 padding_right=6 \
