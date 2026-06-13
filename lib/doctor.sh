@@ -117,7 +117,7 @@ EOF
   clipboard manager, Actions (App Intents), and auto-learned Quick Keys.
     ⌘ Space        →  Spotlight (launcher / search / actions / clipboard)
     ⌃⌘ Space       →  Emoji & Symbols (Character Viewer)
-    ⌘ Tab / AltTab →  Switch windows
+    ⌘ Tab          →  Switch apps (macOS app switcher)
   If ⌘Space doesn't open Spotlight (e.g. a launcher had taken it), re-enable it:
   System Settings → Keyboard → Keyboard Shortcuts → Spotlight → "Show Spotlight search".
   Tip: bind your own automations as Shortcuts to run them from Spotlight (and via

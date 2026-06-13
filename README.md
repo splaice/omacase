@@ -76,7 +76,7 @@ omacase menu               # gum TUI (wrap in a Shortcut to launch from Spotligh
 Launcher — **Spotlight** (built in; no third-party launcher):
 - `⌘ Space` — Spotlight: launcher / search / Actions / clipboard history (Tahoe)
 - `⌃⌘ Space` — Emoji & Symbols (Character Viewer)
-- `⌘ Tab` / AltTab — switch windows
+- `⌘ Tab` — switch apps (macOS); `Super + WASD` focuses windows in AeroSpace
 
 > Nothing to configure — `⌘Space` is Spotlight by default. If a previous launcher
 > took it, re-enable System Settings → Keyboard → Keyboard Shortcuts → Spotlight.

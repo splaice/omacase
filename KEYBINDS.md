@@ -19,7 +19,7 @@ On Tahoe, Spotlight is launcher + Actions + clipboard history + Quick Keys.
 |---|---|
 | `⌘ Space` | Spotlight — launcher / search / Actions / clipboard history |
 | `⌃⌘ Space` | Emoji & Symbols (Character Viewer) |
-| `⌘ Tab` / AltTab | Switch windows |
+| `⌘ Tab` | Switch apps (macOS app switcher) |
 
 > No setup — `⌘Space` is Spotlight by default. If it's been reassigned, re-enable it
 > in System Settings → Keyboard → Keyboard Shortcuts → Spotlight.

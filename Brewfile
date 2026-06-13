@@ -16,7 +16,6 @@ tap  "koekeishiya/formulae"
 # Launcher is macOS Spotlight (⌘Space) — Tahoe's Spotlight has actions,
 # clipboard history, and Quick Keys built in, so no third-party launcher.
 cask "karabiner-elements" # mints the Super key (right ⌘ → ⌃⌥⌘) for AeroSpace
-cask "alt-tab"            # real alt-tab across all windows
 cask "jordanbaird-ice"    # Ice — open-source menu-bar manager (Bartender alt)
 
 # --- Terminal & shell -------------------------------------------------------
