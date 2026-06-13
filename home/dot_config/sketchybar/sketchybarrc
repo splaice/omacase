@@ -209,6 +209,88 @@ sketchybar --add item caffeine left \
     script="$HOME/.config/sketchybar/caffeine.sh" \
   --subscribe caffeine system_woke
 
+# CPU + memory monitor (left, right of caffeine). macOS's own menu bar already
+# shows battery/network/bluetooth/audio, so the bottom bar only adds what it
+# lacks — live CPU + memory. Glyphs as \x bytes (bash 3.2). Click → btop popup.
+cat > "$HOME/.config/sketchybar/sysstats.sh" <<'SYS'
+#!/bin/bash
+ICON_CPU=$'\xf3\xb0\x98\x9a'
+ICON_RAM=$'\xf3\xb0\x93\x85'
+# CPU: top's 2nd sample is the accurate one (the 1st is since boot); user+sys.
+cpu=$(top -l 2 -n 0 2>/dev/null | awk '/CPU usage/{u=$3;s=$5} END{gsub(/%/,"",u);gsub(/%/,"",s);printf "%.0f",u+s}')
+# MEM: (active + wired + compressed) pages over total RAM ≈ "memory used".
+stats=$(vm_stat 2>/dev/null | awk '/Pages active/{a=$3}/Pages wired/{w=$4}/occupied by compressor/{c=$5} END{gsub(/\./,"",a);gsub(/\./,"",w);gsub(/\./,"",c);print a+0,w+0,c+0}')
+set -- $stats; act=$1; wir=$2; cmp=$3
+pg=$(sysctl -n hw.pagesize); total=$(sysctl -n hw.memsize)
+mem=0; [ "${total:-0}" -gt 0 ] && mem=$(( (act + wir + cmp) * pg * 100 / total ))
+sketchybar --set "$NAME" label="$ICON_CPU ${cpu:-0}%  $ICON_RAM ${mem}%"
+SYS
+chmod +x "$HOME/.config/sketchybar/sysstats.sh"
+
+# Click target: a controlled btop window. Open a NEW WINDOW in the existing
+# (undecorated) Ghostty instance — not a 2nd instance, which trips Ghostty's
+# session-restore prompt and makes window targeting ambiguous — then run btop in
+# it via type-ahead, float it (so AeroSpace won't tile it), and center it (~65%
+# of the main display). If a btop window is already open, just raise it.
+cat > "$HOME/.config/sketchybar/btop_popup.sh" <<'POP'
+#!/bin/bash
+AERO="$(command -v aerospace 2>/dev/null)"
+[ -n "$AERO" ] || for p in /opt/homebrew/bin/aerospace /usr/local/bin/aerospace; do [ -x "$p" ] && AERO="$p" && break; done
+AERO="${AERO:-aerospace}"
+
+has_btop='tell application "System Events" to tell process "Ghostty" to (exists (first window whose name contains "btop"))'
+
+# Already open → bring it forward.
+if osascript -e "$has_btop" 2>/dev/null | grep -q true; then
+  osascript -e 'tell application "Ghostty" to activate' 2>/dev/null
+  exit 0
+fi
+
+# New window in the existing instance, then run btop in it.
+osascript -e 'tell application "Ghostty" to activate' \
+          -e 'tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1' 2>/dev/null
+sleep 0.4
+osascript -e 'tell application "System Events" to keystroke "btop"' \
+          -e 'tell application "System Events" to key code 36' 2>/dev/null
+
+# Float the new (focused) window so it isn't tiled, then center it.
+"$AERO" layout floating 2>/dev/null
+bounds=$(osascript -e 'tell application "Finder" to get bounds of window of desktop' 2>/dev/null | tr ',' ' ')
+set -- $bounds; SW=${3:-1440}; SH=${4:-900}
+W=$(( SW * 65 / 100 )); H=$(( SH * 65 / 100 ))
+PX=$(( (SW - W) / 2 )); PY=$(( (SH - H) / 2 ))
+osascript - "$PX" "$PY" "$W" "$H" <<'OSA'
+on run argv
+  set px to (item 1 of argv) as integer
+  set py to (item 2 of argv) as integer
+  set ww to (item 3 of argv) as integer
+  set hh to (item 4 of argv) as integer
+  tell application "System Events" to tell process "Ghostty"
+    set n to 0
+    repeat until (exists (first window whose name contains "btop")) or n > 50
+      delay 0.1
+      set n to n + 1
+    end repeat
+    if exists (first window whose name contains "btop") then
+      set win to (first window whose name contains "btop")
+      set position of win to {px, py}
+      set size of win to {ww, hh}
+    end if
+  end tell
+end run
+OSA
+POP
+chmod +x "$HOME/.config/sketchybar/btop_popup.sh"
+
+# CPU/mem item: left, just right of caffeine. Label-only (icons ride in the
+# label). Refreshes every 5s; click opens the centered btop popup.
+sketchybar --add item sysstats left \
+  --set sysstats icon.drawing=off update_freq=5 \
+    label.color="$LABEL_COLOR" padding_left=8 padding_right=8 \
+    script="$HOME/.config/sketchybar/sysstats.sh" \
+    click_script="$HOME/.config/sketchybar/btop_popup.sh" \
+  --subscribe sysstats system_woke
+
 # Pin the workspace order (ascending; caffeine sits alone on the left), then paint
 # initial state: the trigger runs every space handler (highlight + icons);
 # --update runs the caffeine script.
