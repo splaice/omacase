@@ -32,6 +32,7 @@ _omacase() {
         'terminal:open a new Ghostty window in the running instance'
         'term:open a new Ghostty window in the running instance'
         'btop:toggle a centered, chromeless btop popup'
+        'caffeinate:toggle a stay-awake power assertion'
         'doctor:check permissions, SIP state, and missing grants'
         'backup:snapshot current dotfiles & macOS defaults'
         'restore:roll back to a snapshot (--list to see them)'
@@ -69,6 +70,9 @@ _omacase() {
           ;;
         workspace|ws|grid)
           _values 'workspace' 1 2 3 4 5 6 7 8 9 && ret=0
+          ;;
+        caffeinate|caffeine)
+          _values 'state' toggle on off status && ret=0
           ;;
         restore)
           local backups=${OMACASE_STATE:-$HOME/.local/state/omacase}/backups

@@ -162,51 +162,15 @@ for wid in $("$AEROSPACE" list-workspaces --all 2>/dev/null | sort -n); do
   order="space.$wid $order"
 done
 
-# Caffeine / stay-awake toggle (replaces Taurine). Click holds a power
-# assertion via the built-in `caffeinate` — no app needed. The assertion lives
-# in its own process, so we track it by pidfile: state survives bar reloads,
-# and a stale pid (e.g. after a reboot, when caffeinate is gone) reconciles
-# back to "off". State shows by icon color alone — ACCENT when awake, MUTED off.
-cat > "$HOME/.config/sketchybar/caffeine.sh" <<'CAFFEINE'
-#!/bin/bash
-source "$HOME/.config/sketchybar/theme.sh" 2>/dev/null || true
-: "${ACCENT:=0xff89b4fa}" "${MUTED:=0xff6c7086}"
-PIDFILE="$HOME/.config/sketchybar/caffeinate.pid"
-CAFFEINATE=/usr/bin/caffeinate   # always present; /usr/bin is on the daemon PATH
-
-awake() {   # succeeds only if the caffeinate we started is still alive
-  local pid
-  pid="$(cat "$PIDFILE" 2>/dev/null)" || return 1
-  [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null
-}
-
-if [ "$1" = toggle ]; then
-  if awake; then
-    kill "$(cat "$PIDFILE")" 2>/dev/null
-    rm -f "$PIDFILE"
-  else
-    # -d prevents display sleep, -i prevents system idle sleep; runs until
-    # killed. nohup detaches it from this short-lived click script.
-    nohup "$CAFFEINATE" -d -i >/dev/null 2>&1 &
-    echo $! > "$PIDFILE"
-  fi
-fi
-
-awake || rm -f "$PIDFILE" 2>/dev/null   # drop a stale pidfile before painting
-if awake; then
-  sketchybar --set caffeine icon.color="$ACCENT"
-else
-  sketchybar --set caffeine icon.color="$MUTED"
-fi
-CAFFEINE
-chmod +x "$HOME/.config/sketchybar/caffeine.sh"
-
-# Stay-awake toggle: far-left item.
+# Stay-awake toggle (far-left). Logic lives in `omacase caffeinate` (holds a
+# `caffeinate -d -i` assertion, pidfile-tracked so it survives reloads). The
+# click toggles; the no-arg `script` repaints on events. Absolute path — the
+# daemon's PATH lacks Homebrew. State shows by icon color (ACCENT on / MUTED off).
 sketchybar --add item caffeine left \
   --set caffeine icon=$'\xef\x83\xb4' icon.font="JetBrainsMono Nerd Font:Bold:15.0" \
     icon.color="$MUTED" label.drawing=off padding_left=6 padding_right=6 \
-    click_script="$HOME/.config/sketchybar/caffeine.sh toggle" \
-    script="$HOME/.config/sketchybar/caffeine.sh" \
+    click_script="/opt/homebrew/bin/omacase caffeinate toggle" \
+    script="/opt/homebrew/bin/omacase caffeinate" \
   --subscribe caffeine system_woke
 
 # CPU + memory monitor (left, right of caffeine). macOS's own menu bar already

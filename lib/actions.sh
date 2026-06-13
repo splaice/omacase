@@ -154,3 +154,54 @@ _launchers_remove() {
   done
   success "Removed $n omacase launcher(s) from $dir."
 }
+
+# `omacase caffeinate [toggle|on|off|status]` — hold a power assertion via the
+# built-in `caffeinate` (-d -i: no display or idle sleep), tracked by a pidfile
+# so the state survives across calls and SketchyBar reloads; a stale pid (e.g.
+# after a reboot, when caffeinate is gone) reconciles to "off". With no argument
+# it just repaints the bar. Bound to the SketchyBar coffee-cup click; also
+# usable from a shell or keybind.
+_caffeinate_pidfile() { printf '%s' "$OMACASE_STATE/caffeinate.pid"; }
+
+_caffeinate_awake() {   # 0 only if the caffeinate we started is still alive
+  local pid; pid="$(cat "$(_caffeinate_pidfile)" 2>/dev/null)" || return 1
+  [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null
+}
+
+_caffeinate_start() {
+  _caffeinate_awake && return 0
+  nohup /usr/bin/caffeinate -d -i >/dev/null 2>&1 &   # runs until killed
+  echo $! > "$(_caffeinate_pidfile)"
+}
+
+_caffeinate_stop() {
+  _caffeinate_awake && kill "$(cat "$(_caffeinate_pidfile)")" 2>/dev/null
+  rm -f "$(_caffeinate_pidfile)"
+}
+
+# Reflect state on the SketchyBar coffee-cup item — best-effort (silent if the
+# bar isn't running). Colors come from the live theme.
+_caffeinate_paint() {
+  have sketchybar || return 0
+  source "$HOME/.config/sketchybar/theme.sh" 2>/dev/null || true
+  if _caffeinate_awake; then
+    sketchybar --set caffeine icon.color="${ACCENT:-0xff89b4fa}" 2>/dev/null || true
+  else
+    sketchybar --set caffeine icon.color="${MUTED:-0xff6c7086}" 2>/dev/null || true
+  fi
+}
+
+omacase_caffeinate() {
+  ensure_brew_env   # invoked from the SketchyBar click env, whose PATH lacks Homebrew (sketchybar)
+  case "${1:-paint}" in
+    toggle) if _caffeinate_awake; then _caffeinate_stop; else _caffeinate_start; fi ;;
+    on)     _caffeinate_start ;;
+    off)    _caffeinate_stop ;;
+    status) if _caffeinate_awake; then echo on; _caffeinate_paint; return 0
+            else echo off; _caffeinate_paint; return 1; fi ;;
+    paint|"") : ;;
+    *) abort "usage: omacase caffeinate [toggle|on|off|status]" ;;
+  esac
+  _caffeinate_awake || rm -f "$(_caffeinate_pidfile)" 2>/dev/null   # drop a stale pid
+  _caffeinate_paint
+}

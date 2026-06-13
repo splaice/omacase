@@ -31,6 +31,7 @@ usage: omacase <command> [args]
   workspace <1-9>    Switch to an AeroSpace workspace (alias: ws)
   terminal [cmd...]  Open a new Ghostty window in the running instance, optionally running cmd (alias: term)
   btop               Toggle a centered, chromeless btop popup (SketchyBar CPU/mem click)
+  caffeinate [...]   Toggle a stay-awake power assertion (toggle|on|off|status)
   doctor             Check permissions, SIP state, and missing grants
   backup [label]     Snapshot current dotfiles & macOS defaults
   restore [id]       Roll back to a snapshot (--list to see them)
@@ -51,6 +52,7 @@ case "$cmd" in
   webapp)         source "$OMACASE_ROOT/lib/actions.sh";  omacase_webapp     "$@" ;;
   appearance)     source "$OMACASE_ROOT/lib/actions.sh";  omacase_appearance "$@" ;;
   launchers)      source "$OMACASE_ROOT/lib/actions.sh";  omacase_launchers  "$@" ;;
+  caffeinate|caffeine) source "$OMACASE_ROOT/lib/actions.sh"; omacase_caffeinate "$@" ;;
   wm)             source "$OMACASE_ROOT/lib/wm.sh";       omacase_wm      "$@" ;;
   grid)           source "$OMACASE_ROOT/lib/wm.sh";       omacase_grid    "$@" ;;   # optional workspace arg
   workspace|ws)   source "$OMACASE_ROOT/lib/wm.sh";       omacase_workspace "$@" ;;

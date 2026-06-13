@@ -229,11 +229,30 @@ omacase_btop() {
     return 0
   fi
 
-  # Toggle on: new window in the existing instance, then `exec btop` in it.
+  # The popup is about resources, not processes, so it runs btop with its own
+  # config (no "proc" box) — kept beside the main btop.conf so it shares the
+  # themes dir, but separate so btop's on-exit save never rewrites the proc-box
+  # layout that a plain `btop` in a terminal should keep.
+  local popup_conf="$HOME/.config/btop/omacase-popup.conf"
+  if [ ! -f "$popup_conf" ]; then
+    cat > "$popup_conf" <<'BTOPCONF'
+#? omacase btop popup — resources only (no proc box). Its own config so btop's
+#? on-exit save can't touch the shared btop.conf (which keeps the proc list).
+color_theme = "current"
+theme_background = false
+vim_keys = true
+rounded_corners = true
+update_ms = 1000
+shown_boxes = "cpu mem net"
+BTOPCONF
+  fi
+
+  # Toggle on: new window in the existing instance, then `exec btop` in it
+  # (exec → quitting btop closes the window). Quote the path for safety.
   osascript -e 'tell application "Ghostty" to activate' \
             -e 'tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1' 2>/dev/null
   sleep 0.4
-  osascript -e 'tell application "System Events" to keystroke "exec btop"' \
+  osascript -e "tell application \"System Events\" to keystroke \"exec btop -c '$popup_conf'\"" \
             -e 'tell application "System Events" to key code 36' 2>/dev/null
 
   aerospace layout floating 2>/dev/null || true   # float so AeroSpace won't tile it
